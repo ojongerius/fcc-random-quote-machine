@@ -5,7 +5,6 @@
     <title>"The Bastard Operator From Hell"-style excuse server</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <style>
         .fa-twitter {
             color: #55ACEE;
@@ -40,8 +39,8 @@
 <body>
 <div class="container">
     <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #e74c3c;">
-        <a class="navbar-brand" href="https://github.com/ojongerius/fcc-home"><i class="fa fa-mail-reply"
-                                                                                 aria-hidden="true"></i></a>
+        <a class="navbar-brand" href="https://github.com/ojongerius/fcc-home" aria-hidden="true" aria-label="Link to freeCodeCamp projects"
+        ><i class="fa fa-mail-reply"></i></a>
         <span style="color: white"><em>Excuse of the day generator</em></span>
     </nav>
 </div>
@@ -49,11 +48,11 @@
     <div class="alert alert-light text-center">
         <h5><em>Excuse of the day:</em></h5>
         <br><span id="quote"></span>
-        <button class="btn btn-circle" id="reload"><i class="fa fa-recycle" aria-hidden="true"
-                                                      aria-label="Load another excuse"></i></button>
-        <a href="" id="twitter-link">
+        <button class="btn btn-circle" id="reload" aria-hidden="true"
+                aria-label="Load another excuse"><i class="fa fa-recycle" ></i></button>
+        <a href="" id="twitter-link" aria-hidden="true" aria-label="Share on Twitter">
             <button class="btn btn-circle">
-                <i class="fa fa-twitter" aria-hidden="true" aria-label="Share on Twitter">
+                <i class="fa fa-twitter">
                 </i></button>
         </a>
     </div>
@@ -65,8 +64,9 @@
 </div>
 
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
-    $(document).ready(function () {
+$(document).ready(function () {
         async function loadExcuses() {
             return $.getJSON("excuses.json");
         }
