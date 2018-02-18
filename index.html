@@ -19,71 +19,75 @@
             font-size: 12px;
             line-height: 1.428571429;
             border-radius: 15px;
+            background-color: #d9d9d9;
         }
 
-        .btn-circle.btn-lg {
-            width: 50px;
-            height: 50px;
-            padding: 10px 16px;
-            font-size: 18px;
-            line-height: 1.33;
-            border-radius: 25px;
+        .btn-circle:hover {
+            background-color: #bfbfbf;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+            line-height: 60px;
+            padding-right: 15px;
+            padding-left: 15px;
         }
     </style>
 </head>
-<script>
-
-
-    $(document).ready(function () {
-        async function getJSONAsync() {
-            return $.getJSON("excuses.json");
-        }
-
-        const getQuote = function (data) {
-            return data["payload"][Math.floor(Math.random() * data["payload"].length)];
-        };
-
-        getJSONAsync().then(function (data) {
-            let quote = getQuote(data);
-            let twitterUrl = "https://twitter.com/share?via=xzu&hashtags=bofh&url=" +
-                "http://www.0tt0.net/fcc-random-quote-machine&text=Love this excuse of the day: \"";
-            $("#quote").html("<p><em>" + quote + "</em></p>");
-            $("#twitter-link").attr("href", twitterUrl + encodeURIComponent(quote + "\""));
-
-            $("#reload").click(function () {
-                let quote = getQuote(data);
-                $("#quote").html("<p><em>" + quote + "</em></p>");
-                $("#twitter-link").attr("href", twitterUrl + encodeURIComponent(quote + "\""));
-            })
-        });
-    });
-
-</script>
 <body>
 <div class="container">
     <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #e74c3c;">
         <a class="navbar-brand" href="https://github.com/ojongerius/fcc-home"><i class="fa fa-mail-reply"
                                                                                  aria-hidden="true"></i></a>
-        <span style="color: white"><em>Excuse of the day?</em></span>
+        <span style="color: white"><em>Excuse of the day generator</em></span>
     </nav>
 </div>
 <div class="container" style="padding-top: 5rem;">
-    <div class="alert alert-secondary">
+    <div class="alert alert-light text-center">
+        <h5><em>Excuse of the day:</em></h5>
         <br><span id="quote"></span>
-        <button class="btn btn-circle btn-lg" id="reload"><i class="fa fa-recycle" aria-hidden="true"
-                                                             aria-label="Load another excuse"></i></button>
+        <button class="btn btn-circle" id="reload"><i class="fa fa-recycle" aria-hidden="true"
+                                                      aria-label="Load another excuse"></i></button>
         <a href="" id="twitter-link">
-            <button class="btn btn-circle btn-lg">
+            <button class="btn btn-circle">
                 <i class="fa fa-twitter" aria-hidden="true" aria-label="Share on Twitter">
                 </i></button>
         </a>
     </div>
+    <div class="container footer">
+        <p style="font-size: 10px"><em>Excuses sourced from the original by <a
+                href="http://jeffballard.us/">Jeff Ballard</a>: <a href="http://pages.cs.wisc.edu/~ballard/bofh/">The
+            Bastard Operator From Hell -Style Excuse Server</a></em></p>
+    </div>
 </div>
-<div class="container">
-    <p style="font-size: 10px"><em>Excuses thankfully sourced from the original page by <a
-            href="http://jeffballard.us/">Jeff Ballard</a>: <a href="http://pages.cs.wisc.edu/~ballard/bofh/">The
-        Bastard Operator From Hell -Style Excuse Server</a></em></p>
 
-</div>
 </body>
+<script>
+    $(document).ready(function () {
+        async function loadExcuses() {
+            return $.getJSON("excuses.json");
+        }
+
+        const getRandomQuote = function (data) {
+            return data["payload"][Math.floor(Math.random() * data["payload"].length)];
+        };
+
+        loadExcuses().then(function (data) {
+            let quote = getRandomQuote(data);
+            const twitterUrl = "https://twitter.com/share?via=xzu&hashtags=bofh&url=" +
+                "http://www.0tt0.net/fcc-random-quote-machine&text=Love this excuse of the day: \"";
+            $("#quote").html("<p><em>" + quote + "</em></p>");
+            $("#twitter-link").attr("href", twitterUrl + encodeURIComponent(quote + "\""));
+
+            $("#reload").click(function () {
+                quote = getRandomQuote(data);
+                $("#quote").html("<p><em>" + quote + "</em></p>");
+                $("#twitter-link").attr("href", twitterUrl + encodeURIComponent(quote + "\""));
+            })
+        });
+    });
+</script>
 </html>
