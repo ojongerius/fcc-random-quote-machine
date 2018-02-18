@@ -6,29 +6,84 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        .fa-twitter {
+            color: #55ACEE;
+        }
+
+        .btn-circle {
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            padding: 6px 0;
+            font-size: 12px;
+            line-height: 1.428571429;
+            border-radius: 15px;
+        }
+
+        .btn-circle.btn-lg {
+            width: 50px;
+            height: 50px;
+            padding: 10px 16px;
+            font-size: 18px;
+            line-height: 1.33;
+            border-radius: 25px;
+        }
+    </style>
 </head>
 <script>
 
+
     $(document).ready(function () {
-        $.getJSON("excuses.json", function (data) {
-            var randomNumber = Math.floor(Math.random() * data["payload"].length);
-            $("#quote").html("<p><em>" + data["payload"][randomNumber] + "</em></p>")
-        })
-        $.onclick()
+        async function getJSONAsync() {
+            return $.getJSON("excuses.json");
+        }
+
+        const getQuote = function (data) {
+            return data["payload"][Math.floor(Math.random() * data["payload"].length)];
+        };
+
+        getJSONAsync().then(function (data) {
+            let quote = getQuote(data);
+            let twitterUrl = "https://twitter.com/share?via=xzu&hashtags=bofh&url=" +
+                "http://www.0tt0.net/fcc-random-quote-machine&text=Love this excuse of the day: \"";
+            $("#quote").html("<p><em>" + quote + "</em></p>");
+            $("#twitter-link").attr("href", twitterUrl + encodeURIComponent(quote + "\""));
+
+            $("#reload").click(function () {
+                let quote = getQuote(data);
+                $("#quote").html("<p><em>" + quote + "</em></p>");
+                $("#twitter-link").attr("href", twitterUrl + encodeURIComponent(quote + "\""));
+            })
+        });
     });
+
 </script>
 <body>
 <div class="container">
     <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #e74c3c;">
         <a class="navbar-brand" href="https://github.com/ojongerius/fcc-home"><i class="fa fa-mail-reply"
                                                                                  aria-hidden="true"></i></a>
+        <span style="color: white"><em>Excuse of the day?</em></span>
     </nav>
 </div>
 <div class="container" style="padding-top: 5rem;">
     <div class="alert alert-secondary">
-        <h4>Excuse of the day</h4>
         <br><span id="quote"></span>
+        <button class="btn btn-circle btn-lg" id="reload"><i class="fa fa-recycle" aria-hidden="true"
+                                                             aria-label="Load another excuse"></i></button>
+        <a href="" id="twitter-link">
+            <button class="btn btn-circle btn-lg">
+                <i class="fa fa-twitter" aria-hidden="true" aria-label="Share on Twitter">
+                </i></button>
+        </a>
     </div>
+</div>
+<div class="container">
+    <p style="font-size: 10px"><em>Excuses thankfully sourced from the original page by <a
+            href="http://jeffballard.us/">Jeff Ballard</a>: <a href="http://pages.cs.wisc.edu/~ballard/bofh/">The
+        Bastard Operator From Hell -Style Excuse Server</a></em></p>
+
 </div>
 </body>
 </html>
